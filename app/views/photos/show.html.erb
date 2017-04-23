@@ -1,0 +1,24 @@
+<%= render 'shared/page_title', title: @photo.name %>
+
+<div class="center">
+  <%= link_to gravatar_for(@photo.user, size: 80), user_path(@photo.user) %>
+  <h4><%= "Posted by #{@photo.user.email}" %></h4>
+  <h3 class='image'><%= image_tag @photo.image.url(:original), {:width => "500", :height => "500"}%></h3>
+  <p><%=@photo.description %></p>
+    <%= link_to like_photo_path(@photo, like: true), method: :post do %>
+      <i class="glyphicon glyphicon-thumbs-up"></i> &nbsp <%= @photo.thumbs_up_total %>
+    <% end %> &nbsp&nbsp&nbsp&nbsp
+    <%= link_to like_photo_path(@photo, like: false), method: :post do %>
+      <i class="glyphicon glyphicon-thumbs-down"></i> &nbsp <%= @photo.thumbs_down_total %>
+    <% end %>
+    <br>
+  <%= link_to "Comment", new_photo_comment_path(@photo) %></br>
+  <% if @photo.comments.any? %>
+      <% @photo.comments.each do |comment| %>
+         <h6><%= comment.thoughts %> - <%= "Posted by #{comment.user_id}" %></h6>
+      <% end %>
+  <% else %>
+    <p>Be the first to comment on this photo</p>
+  <% end %>
+</div>
+
